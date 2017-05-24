@@ -1,7 +1,8 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const webpack = require("webpack");
-const path = require("path");
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const webpack = require('webpack');
+const path = require('path');
+const bootstrapEntryPoints = require('./webpack.bootstrap.config.js');
 
 
 const isProd = process.env.NODE_ENV === 'production'; //true or false
@@ -12,12 +13,13 @@ const cssProd = ExtractTextPlugin.extract({
   });
 const cssConfig = isProd ? cssProd : cssDev;
 
+const bootstrapConfig = isProd ? bootstrapEntryPoints.prod : bootstrapEntryPoints.dev;
+
 
 module.exports = {
     entry: {
       app: './src/app.js',
-      contact: './src/contact.js',
-      home: './src/home.js',
+      bootstrap: bootstrapConfig
     },
     output: {
       path: path.resolve (__dirname + '/dist'), // `dist` is the destination
@@ -29,20 +31,9 @@ module.exports = {
           test: /\.scss$/,
           use: cssConfig
         },
-        {
-          test: /\.js$/,
-           exclude: /(node_modules|bower_components)/,
-           use: {
-             loader: 'babel-loader',
-             options: {
-               presets: ['env']
-             }
-           }
-         },
-        {
-          test: /\.jpe?g|\.gif$|\.png|\.svg|\.woff|\.eot|\.ttf/,
-           use: 'url-loader'
-            }
+        { test: /\.(woff2?|svg)$/, loader: 'url-loader?limit=10000' },
+        { test: /\.(ttf|eot)$/, loader: 'file-loader' },
+        { test:/bootstrap-sass[\/\\]assets[\/\\]javascripts[\/\\]/, loader: 'imports-loader?jQuery=jquery' }
       ]
     },
     devServer: {
@@ -62,28 +53,28 @@ module.exports = {
         excludeChunks: ['contact', 'home'],
         template: './src/index.html', // Home Page template
       }),
-      new HtmlWebpackPlugin({
-        title: 'Contact Page',
-        minify: {
-          collapseWhitespace: true
-        },
-        hash: true,
-        chunks: ['contact'],
-        filename: 'contact.html',
-        template: './src/contact.html', // Contact Page template
-      }),
-      new HtmlWebpackPlugin({
-        title: 'Home Page',
-        minify: {
-          collapseWhitespace: true
-        },
-        hash: true,
-        chunks: ['home'],
-        filename: 'home.html',
-        template: './src/home.html', // Contact Page template
-      }),
+      // new HtmlWebpackPlugin({
+      //   title: 'Contact Page',
+      //   minify: {
+      //     collapseWhitespace: true
+      //   },
+      //   hash: true,
+      //   chunks: ['contact'],
+      //   filename: 'contact.html',
+      //   template: './src/contact.html', // Contact Page template
+      // }),
+      // new HtmlWebpackPlugin({
+      //   title: 'Alt Home Page',
+      //   minify: {
+      //     collapseWhitespace: true
+      //   },
+      //   hash: true,
+      //   chunks: ['home'],
+      //   filename: 'home.html',
+      //   template: './src/home.html', // Contact Page template
+      // }),
       new ExtractTextPlugin({
-        filename: 'styles.css',
+        filename: 'app.css',
         disable: !isProd,
         allChunks: true
       }),
