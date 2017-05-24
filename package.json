@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "npm run clean && NODE_ENV=production webpack -p --watch",
+    "start": "node app.js",
     "dev": "webpack-dev-server --watch",
     "prod": "npm run clean && NODE_ENV=production webpack -p --watch",
     "clean": "rimraf ./dist/*"
