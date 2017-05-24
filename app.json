@@ -1,0 +1,16 @@
+{
+  "name": "webpackAngular",
+  "description": "Basic Webpack 2 set up for Angular",
+  "scripts": {
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
