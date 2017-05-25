@@ -1,1 +1,1 @@
-# webpack2-angular-basic
+# webpack2-bootstrap-basic
