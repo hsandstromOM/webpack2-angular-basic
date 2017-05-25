@@ -6,7 +6,7 @@
     "dev": "webpack-dev-server",
     "prod": "npm run clean && NODE_ENV=production webpack -p",
     "clean": "rimraf ./dist/*",
-    "heroku-postbuild": "NODE_ENV=production webpack -p"
+    "heroku-postbuild": "webpack-dev-server"
   },
   "author": "",
   "license": "ISC",
