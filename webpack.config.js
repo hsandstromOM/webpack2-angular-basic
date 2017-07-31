@@ -43,7 +43,7 @@ module.exports = {
         bootstrap: bootstrapConfig
     },
     output: {
-        path: path.resolve(__dirname, "dist"),
+        path: path.resolve(__dirname, 'dist'),
 				publicPath: 'dist/',
         filename: '[name].bundle.js'
     },
